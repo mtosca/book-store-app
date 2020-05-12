@@ -12,30 +12,32 @@ Close the aplication
 """
 
 from tkinter import *
-import backend as bk
+from backend import DataBase
+
+database = DataBase()
 
 # function to print results
 def view_command():
     results_list.delete(0, END)
-    for row in bk.view():
+    for row in database.view():
         results_list.insert(END, row)
 
 def seach_command():
     results_list.delete(0, END)
-    rows = bk.search(title=title_entry.get(), author=author_entry.get(), year=int(year_entry.get()), isbn=isbn_entry.get())
+    rows = database.search(title=title_entry.get(), author=author_entry.get(), year=year_entry.get(), isbn=isbn_entry.get())
     for row in rows:
         results_list.insert(END, row)
 
 def insert_command():
-    bk.insert(title=title_entry.get(), author=author_entry.get(), year=int(year_entry.get()), isbn=isbn_entry.get())
+    database.insert(title=title_entry.get(), author=author_entry.get(), year=year_entry.get(), isbn=isbn_entry.get())
     results_list.delete(0, END)
-    results_list.insert(END, (title_entry.get(), author_entry.get(), int(year_entry.get()), isbn_entry.get()))
+    results_list.insert(END, (title_entry.get(), author_entry.get(), year_entry.get(), isbn_entry.get()))
 
 def update_command():
-    bk.update(selected_book[0], title_entry.get(), author_entry.get(), int(year_entry.get()), isbn_entry.get())
+    database.update(selected_book[0], title_entry.get(), author_entry.get(), year_entry.get(), isbn_entry.get())
 
 def delete_command():
-    bk.delete(selected_book[0])
+    database.delete(selected_book[0])
 
 def exit_command():
     win.destroy()   
