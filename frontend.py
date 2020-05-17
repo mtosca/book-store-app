@@ -12,34 +12,39 @@ Close the aplication
 """
 
 from tkinter import *
+from book import Book
 
 class TkinterFrontend():
 
-    def set_db(self, database):
-        self.database = database
+    def set_db(self, storage):
+        self.storage = storage
 
     # function to print results
     def view_command(self):
         self.results_list.delete(0, END)
-        for row in self.database.view():
+        for row in self.storage.view():
             self.results_list.insert(END, row)
 
     def seach_command(self):
         self.results_list.delete(0, END)
-        rows = self.database.search(title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
+        book = Book(title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
+        rows = self.storage.search(book)
         for row in rows:
             self.results_list.insert(END, row)
 
     def insert_command(self):
-        self.database.insert(title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
+        book = Book(title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
+        self.storage.insert(book)
         self.results_list.delete(0, END)
         self.results_list.insert(END, (self.title_entry.get(), self.author_entry.get(), self.year_entry.get(), self.isbn_entry.get()))
 
     def update_command(self):
-        self.database.update(self.selected_book[0], self.title_entry.get(), self.author_entry.get(), self.year_entry.get(), self.isbn_entry.get())
+        book = Book(id=self.selected_book[0], title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
+        self.storage.update(book)
 
     def delete_command(self):
-        self.database.delete(self.selected_book[0])
+        book = Book(id=self.selected_book[0])
+        self.storage.delete(book)
 
     def exit_command(self):
         self.win.destroy()   

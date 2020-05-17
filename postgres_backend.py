@@ -18,23 +18,23 @@ class PostgresDataBase:
     def __del__(self):
         self.conn.close()
 
-    def insert(self, title, author, year, isbn):
-        self.cur.execute("INSERT INTO book (title, author, year, isbn) VALUES (%s, %s, %s, %s)", (title, author, year, isbn))
+    def insert(self, book):
+        self.cur.execute("INSERT INTO book (title, author, year, isbn) VALUES (%s, %s, %s, %s)", book.attr_touple())
         self.conn.commit()
 
-    def search(self, title="", author="", year="", isbn=""):
-        year = int(year) if year != "" else 0 
-        self.cur.execute("SELECT * FROM book WHERE title = %s OR author = %s OR year = %s OR isbn = %s", (title, author, year, isbn))
+    def search(self, book):
+        self.cur.execute("SELECT * FROM book WHERE title = %s OR author = %s OR year = %s OR isbn = %s", book.attr_touple())
         return self.cur.fetchall()
 
     def view(self):
         self.cur.execute("SELECT * FROM book")
         return self.cur.fetchall()
 
-    def delete(self, id):
-        self.cur.execute("DELETE FROM book WHERE id = %s", (id,))
+    def delete(self, book):
+        self.cur.execute("DELETE FROM book WHERE id = %s", (book.id,))
         self.conn.commit()
 
-    def update(self, id, title, author, year, isbn):
-        self.cur.execute("UPDATE book SET title = %s, author = %s, year = %s, isbn = %s WHERE id = %s", (title, author, year, isbn, id))
+    def update(self, book):
+        print(book.attr_touple_with_id())
+        self.cur.execute("UPDATE book SET title = %s, author = %s, year = %s, isbn = %s WHERE id = %s", book.attr_touple_with_id())
         self.conn.commit()
