@@ -13,5 +13,6 @@ class BookStore():
         self.fe.set_db(self.be)
         self.fe.start()
 
+# window handler and database are "injectable", there is also a sqlite3 connector available
 system = BookStore(TkinterFrontend(), PostgresDataBase())
 system.start()
