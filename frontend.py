@@ -12,12 +12,12 @@ Close the aplication
 """
 
 from tkinter import *
-from backend import DataBase
+from backend import PostgresDataBase
 
 class TkinterFrontend():
 
-    def __init__(self):
-        self.database = DataBase()
+    def __init__(self, database):
+        self.database = database
 
     # function to print results
     def view_command(self):

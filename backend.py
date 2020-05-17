@@ -1,6 +1,6 @@
 import psycopg2 as psy
 
-class DataBase:
+class PostgresDataBase:
 
     def __init__(self):
         self.conn_string = "dbname='book_shop' user='postgres' password='postgres' host='localhost' port='5432'"

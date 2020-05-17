@@ -1,5 +1,5 @@
 from frontend import TkinterFrontend
-from backend import DataBase
+from backend import PostgresDataBase
 
 
 class BookStore():
@@ -11,5 +11,5 @@ class BookStore():
     def start(self):
         self.fe.start()
 
-system = BookStore(TkinterFrontend(), DataBase())
+system = BookStore(TkinterFrontend(PostgresDataBase()), PostgresDataBase())
 system.start()
