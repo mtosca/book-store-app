@@ -12,7 +12,6 @@ Close the aplication
 """
 
 from tkinter import *
-from backend import PostgresDataBase
 
 class TkinterFrontend():
 
