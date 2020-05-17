@@ -16,6 +16,9 @@ from book import Book
 
 class TkinterFrontend():
 
+    def __init__(self):
+        super().__init__()
+
     def set_db(self, storage):
         self.storage = storage
 
@@ -43,7 +46,7 @@ class TkinterFrontend():
         self.storage.update(book)
 
     def delete_command(self):
-        book = Book(id=self.selected_book[0])
+        book = Book().from_touple(self.selected_book)
         self.storage.delete(book)
 
     def exit_command(self):
