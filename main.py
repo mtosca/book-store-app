@@ -10,7 +10,8 @@ class BookStore():
         self.be = backend
 
     def start(self):
+        self.fe.set_db(self.be)
         self.fe.start()
 
-system = BookStore(TkinterFrontend(PostgresDataBase()), PostgresDataBase())
+system = BookStore(TkinterFrontend(), PostgresDataBase())
 system.start()

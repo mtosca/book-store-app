@@ -15,7 +15,7 @@ from tkinter import *
 
 class TkinterFrontend():
 
-    def __init__(self, database):
+    def set_db(self, database):
         self.database = database
 
     # function to print results
