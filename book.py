@@ -21,3 +21,10 @@ class Book:
 
     def attr_touple_with_id(self):
         return (self.title, self.author, self.year, self.isbn, self.id)
+
+    def show(self):
+        return ("{:30}".format(self.title),
+            "{:20}".format(self.author),
+            "{:6}".format(str(self.year)),
+            "{:10}".format(self.isbn.strip())
+        )

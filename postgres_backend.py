@@ -35,6 +35,5 @@ class PostgresDataBase:
         self.conn.commit()
 
     def update(self, book):
-        print(book.attr_touple_with_id())
         self.cur.execute("UPDATE book SET title = %s, author = %s, year = %s, isbn = %s WHERE id = %s", book.attr_touple_with_id())
         self.conn.commit()

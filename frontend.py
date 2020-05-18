@@ -25,8 +25,9 @@ class TkinterFrontend():
     # function to print results
     def view_command(self):
         self.results_list.delete(0, END)
-        for row in self.storage.view():
-            self.results_list.insert(END, row)
+        for book in self.storage.view():
+            self.results_list.insert(END, book)
+        self.clear_entries()
 
     def seach_command(self):
         self.results_list.delete(0, END)
@@ -34,39 +35,56 @@ class TkinterFrontend():
         rows = self.storage.search(book)
         for row in rows:
             self.results_list.insert(END, row)
+        self.clear_entries()
 
     def insert_command(self):
         book = Book(title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
         self.storage.insert(book)
-        self.results_list.delete(0, END)
-        self.results_list.insert(END, (self.title_entry.get(), self.author_entry.get(), self.year_entry.get(), self.isbn_entry.get()))
+        self.clear_entries()
+        self.view_command()
 
     def update_command(self):
         book = Book(id=self.selected_book[0], title=self.title_entry.get(), author=self.author_entry.get(), year=self.year_entry.get(), isbn=self.isbn_entry.get())
         self.storage.update(book)
+        self.clear_entries()
+        self.view_command()
 
     def delete_command(self):
         book = Book().from_touple(self.selected_book)
         self.storage.delete(book)
+        self.clear_entries()
+        self.view_command()
 
     def exit_command(self):
         self.win.destroy()   
 
     def get_selected_row(self, event):
+        self.set_selected_book()
+        self.clear_entries()
+        if self.selected_book:
+            self.title_entry.insert(END, self.selected_book[1])
+            self.author_entry.insert(END, self.selected_book[2])
+            self.year_entry.insert(END, self.selected_book[3])
+            self.isbn_entry.insert(END, self.selected_book[4])
+
+    def clear_entries(self):
+        self.set_selected_book()
+
+        self.title_entry.delete(0, END)
+        self.author_entry.delete(0, END)
+        self.year_entry.delete(0, END)
+        self.isbn_entry.delete(0, END)
+    
+    def set_selected_book(self):
+        self.selected_book = None
         if self.results_list.size() <= 0:
             return
 
-        selected_index = self.results_list.curselection()[0]
-        self.selected_book = self.results_list.get(selected_index)
+        curse_selection = self.results_list.curselection()
+        if curse_selection == None or curse_selection.__len__() < 1:
+            return
 
-        self.title_entry.delete(0, END)
-        self.title_entry.insert(END, self.selected_book[1])
-        self.author_entry.delete(0, END)
-        self.author_entry.insert(END, self.selected_book[2])
-        self.year_entry.delete(0, END)
-        self.year_entry.insert(END, self.selected_book[3])
-        self.isbn_entry.delete(0, END)
-        self.isbn_entry.insert(END, self.selected_book[4])
+        self.selected_book = self.results_list.get(curse_selection[0])
 
 
     def start(self):
@@ -108,7 +126,7 @@ class TkinterFrontend():
         scroll_bar = Scrollbar(self.win)
         scroll_bar.grid(row=2, column=5, rowspan=10)
 
-        self.results_list = Listbox(self.win, height=12, width=50)
+        self.results_list = Listbox(self.win, height=12, width=55)
         self.results_list.grid(row=2, column=0, rowspan=10, columnspan=4)
 
         self.results_list.configure(yscrollcommand=scroll_bar.set)
